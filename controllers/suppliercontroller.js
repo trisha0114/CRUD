@@ -24,6 +24,7 @@
     */
 import Supplier from "../models/supplierModel.js";
 
+// GET: Retrieve all suppliers
 export const getSuppliers = async (req, res) => {
   try {
     const suppliers = await Supplier.findAll();
@@ -33,10 +34,60 @@ export const getSuppliers = async (req, res) => {
   }
 };
 
+// POST: Create a new supplier
 export const storeSupplier = async (req, res) => {
   try {
     const supplier = await Supplier.create(req.body);
-    res.status(201).json({ message: "Supplier created successfully", data: supplier });
+
+    res.status(201).json({
+      message: "Supplier created successfully",
+      data: supplier
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// PUT: Update an existing supplier
+export const updateSupplier = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const supplier = await Supplier.findByPk(id);
+
+    if (!supplier) {
+      return res.status(404).json({
+        message: "Supplier not found"
+      });
+    }
+
+    await supplier.update(req.body);
+
+    res.status(200).json({
+      message: "Supplier updated successfully",
+      data: supplier
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// DELETE: Remove a supplier
+export const deleteSupplier = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const supplier = await Supplier.findByPk(id);
+
+    if (!supplier) {
+      return res.status(404).json({
+        message: "Supplier not found"
+      });
+    }
+
+    await supplier.destroy();
+
+    res.status(200).json({
+      message: "Supplier deleted successfully"
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

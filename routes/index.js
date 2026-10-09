@@ -27,41 +27,74 @@
 import express from "express";
 const router = express.Router();
 
-// Import 5 Controllers
-import { getCategories, storeCategory } from "../controllers/categoryController.js";
-import { getCustomers, storeCustomer } from "../controllers/customerController.js";
-import { getOrders, storeOrder } from "../controllers/orderController.js";
-import { getProducts, storeProduct } from "../controllers/productController.js";
-import { getSuppliers, storeSupplier } from "../controllers/supplierController.js";
+// Import Category Controller
+import {
+    getCategories,
+    storeCategory,
+    updateCategory,
+    deleteCategory
+} from "../controllers/categorycontroller.js";
 
-// ==========================================
-// 1 & 2: CATEGORY ROUTES
-// ==========================================
+// Import Customer Controller
+import {
+    getCustomers,
+    storeCustomer,
+    updateCustomer,
+    deleteCustomer
+} from "../controllers/customercontroller.js";
+
+// Import Order Controller
+import {
+    getOrders,
+    storeOrder,
+    updateOrder,
+    deleteOrder
+} from "../controllers/ordercontroller.js";
+
+// Import Product Controller
+import {
+    getProducts,
+    storeProduct,
+    updateProduct,
+    deleteProduct
+} from "../controllers/productcontroller.js";
+
+// Import Supplier Controller
+import {
+    getSuppliers,
+    storeSupplier,
+    updateSupplier,
+    deleteSupplier
+} from "../controllers/suppliercontroller.js";
+
+// CATEGORY ROUTES
 router.get("/categories", getCategories);
 router.post("/categories", storeCategory);
+router.put("/categories/:id", updateCategory);
+router.delete("/categories/:id", deleteCategory);
 
-// ==========================================
-// 3 & 4: CUSTOMER ROUTES
-// ==========================================
+// CUSTOMER ROUTES
 router.get("/customers", getCustomers);
 router.post("/customers", storeCustomer);
+router.put("/customers/:id", updateCustomer);
+router.delete("/customers/:id", deleteCustomer);
 
-// ==========================================
-// 5 & 6: ORDER ROUTES
-// ==========================================
+// ORDER ROUTES
 router.get("/orders", getOrders);
 router.post("/orders", storeOrder);
+router.put("/orders/:id", updateOrder);
+router.delete("/orders/:id", deleteOrder);
 
-// ==========================================
-// 7 & 8: PRODUCT ROUTES
-// ==========================================
+// PRODUCT ROUTES
 router.get("/products", getProducts);
 router.post("/products", storeProduct);
+router.put("/products/:id", updateProduct);
+router.delete("/products/:id", deleteProduct);
 
-// ==========================================
-// 9 & 10: SUPPLIER ROUTES
-// ==========================================
+// SUPPLIER ROUTES
 router.get("/suppliers", getSuppliers);
 router.post("/suppliers", storeSupplier);
+router.put("/suppliers/:id", updateSupplier);
+router.delete("/suppliers/:id", deleteSupplier);
 
 export default router;

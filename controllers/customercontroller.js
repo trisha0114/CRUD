@@ -24,6 +24,7 @@
     */
 import Customer from "../models/customerModel.js";
 
+// GET: Retrieve all customers
 export const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.findAll();
@@ -33,10 +34,60 @@ export const getCustomers = async (req, res) => {
   }
 };
 
+// POST: Create a new customer
 export const storeCustomer = async (req, res) => {
   try {
     const customer = await Customer.create(req.body);
-    res.status(201).json({ message: "Customer created successfully", data: customer });
+
+    res.status(201).json({
+      message: "Customer created successfully",
+      data: customer
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// PUT: Update an existing customer
+export const updateCustomer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const customer = await Customer.findByPk(id);
+
+    if (!customer) {
+      return res.status(404).json({
+        message: "Customer not found"
+      });
+    }
+
+    await customer.update(req.body);
+
+    res.status(200).json({
+      message: "Customer updated successfully",
+      data: customer
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// DELETE: Remove a customer
+export const deleteCustomer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const customer = await Customer.findByPk(id);
+
+    if (!customer) {
+      return res.status(404).json({
+        message: "Customer not found"
+      });
+    }
+
+    await customer.destroy();
+
+    res.status(200).json({
+      message: "Customer deleted successfully"
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

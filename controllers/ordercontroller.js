@@ -24,6 +24,7 @@
     */
 import Order from "../models/orderModel.js";
 
+// GET: Retrieve all orders
 export const getOrders = async (req, res) => {
   try {
     const orders = await Order.findAll();
@@ -33,10 +34,60 @@ export const getOrders = async (req, res) => {
   }
 };
 
+// POST: Create a new order
 export const storeOrder = async (req, res) => {
   try {
     const order = await Order.create(req.body);
-    res.status(201).json({ message: "Order created successfully", data: order });
+
+    res.status(201).json({
+      message: "Order created successfully",
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// PUT: Update an existing order
+export const updateOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByPk(id);
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found"
+      });
+    }
+
+    await order.update(req.body);
+
+    res.status(200).json({
+      message: "Order updated successfully",
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// DELETE: Remove an order
+export const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByPk(id);
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found"
+      });
+    }
+
+    await order.destroy();
+
+    res.status(200).json({
+      message: "Order deleted successfully"
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
