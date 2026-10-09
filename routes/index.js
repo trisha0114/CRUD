@@ -24,48 +24,53 @@
     SOFTWARE.
     */
     
+
+
 import express from "express";
 const router = express.Router();
 
 // Import Category Controller
 import {
-    getCategories,
-    storeCategory,
-    updateCategory,
-    deleteCategory
+  getCategories,
+  storeCategory,
+  updateCategory,
+  deleteCategory
 } from "../controllers/categorycontroller.js";
 
 // Import Customer Controller
 import {
-    getCustomers,
-    storeCustomer,
-    updateCustomer,
-    deleteCustomer
+  getCustomers,
+  storeCustomer,
+  updateCustomer,
+  deleteCustomer
 } from "../controllers/customercontroller.js";
 
 // Import Order Controller
 import {
-    getOrders,
-    storeOrder,
-    updateOrder,
-    deleteOrder
+  getOrders,
+  storeOrder,
+  updateOrder,
+  deleteOrder
 } from "../controllers/ordercontroller.js";
 
 // Import Product Controller
 import {
-    getProducts,
-    storeProduct,
-    updateProduct,
-    deleteProduct
+  getProducts,
+  storeProduct,
+  updateProduct,
+  deleteProduct
 } from "../controllers/productcontroller.js";
 
 // Import Supplier Controller
 import {
-    getSuppliers,
-    storeSupplier,
-    updateSupplier,
-    deleteSupplier
+  getSuppliers,
+  storeSupplier,
+  updateSupplier,
+  deleteSupplier
 } from "../controllers/suppliercontroller.js";
+
+// Import Student Controller
+import { studentcontroller } from "../controllers/studentController.js";
 
 // CATEGORY ROUTES
 router.get("/categories", getCategories);
@@ -96,5 +101,12 @@ router.get("/suppliers", getSuppliers);
 router.post("/suppliers", storeSupplier);
 router.put("/suppliers/:id", updateSupplier);
 router.delete("/suppliers/:id", deleteSupplier);
+
+// STUDENT ROUTES
+router.get("/students", studentcontroller.index);
+router.post("/students", studentcontroller.insert);
+router.get("/students/:id", studentcontroller.getStudent);
+router.post("/students/:id", studentcontroller.update);
+router.post("/students/:id/delete", studentcontroller.deleteStudent);
 
 export default router;

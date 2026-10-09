@@ -1,0 +1,70 @@
+
+{{> head }}
+<body class="bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Edit Student</h1>
+
+    <form method="POST" action="/students/{{student.id}}" class="space-y-4">
+      <input
+        type="text"
+        name="FirstName"
+        placeholder="First Name"
+        value="{{student.FirstName}}"
+        required
+        class="border p-2 w-full"
+      >
+
+      <input
+        type="text"
+        name="LastName"
+        placeholder="Last Name"
+        value="{{student.LastName}}"
+        required
+        class="border p-2 w-full"
+      >
+
+      <input
+        type="text"
+        name="MiddleName"
+        placeholder="Middle Name"
+        value="{{student.MiddleName}}"
+        class="border p-2 w-full"
+      >
+
+      <input
+        type="text"
+        name="Program"
+        placeholder="Program"
+        value="{{student.Program}}"
+        required
+        class="border p-2 w-full"
+      >
+
+      <input
+        type="text"
+        name="YearLevel"
+        placeholder="Year Level"
+        value="{{student.YearLevel}}"
+        required
+        class="border p-2 w-full"
+      >
+
+      <input
+        type="text"
+        name="Section"
+        placeholder="Section"
+        value="{{student.Section}}"
+        required
+        class="border p-2 w-full"
+      >
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2">
+        Update Student
+      </button>
+
+      <a href="/students" class="text-blue-600 ml-3">Cancel</a>
+    </form>
+  </div>
+  {{> footer }}
+</body>
+</html>
