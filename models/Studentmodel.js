@@ -58,3 +58,4 @@ export const Studentmodel = sequelize.define("studentmodel", {
 });
 
 export { sequelize };
+
