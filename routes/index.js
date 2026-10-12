@@ -26,6 +26,7 @@
     
 
 
+
 import express from "express";
 const router = express.Router();
 
@@ -72,6 +73,9 @@ import {
 // Import Student Controller
 import { studentcontroller } from "../controllers/studentController.js";
 
+// Import Book Controller
+import { bookcontroller } from "../controllers/bookcontroller.js";
+
 // CATEGORY ROUTES
 router.get("/categories", getCategories);
 router.post("/categories", storeCategory);
@@ -108,5 +112,13 @@ router.post("/students", studentcontroller.insert);
 router.get("/students/:id", studentcontroller.getStudent);
 router.post("/students/:id", studentcontroller.update);
 router.post("/students/:id/delete", studentcontroller.deleteStudent);
+
+
+ // BOOK ROUTES
+router.get("/books", bookcontroller.index);
+router.post("/books", bookcontroller.store);
+router.put("/books/:id", bookcontroller.update);
+router.delete("/books/:id", bookcontroller.destroy);
+
 
 export default router;
