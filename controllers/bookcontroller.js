@@ -28,98 +28,182 @@
 import Book from "../models/Book.js";
 
 const bookcontroller = {
-  // GET: Display all books
-  index: async (req, res) => {
+  // Display books in browser
+  async page(req, res) {
     try {
-      const books = await Book.findAll();
-      res.json(books);
+      const books = await Book.findAll({
+        order: [["id", "DESC"]]
+      });
+
+      res.render("books", { books });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).send("Error loading books.");
     }
   },
 
-  // POST: Add a new book
-  store: async (req, res) => {
+  // Show Add Book page
+  insertPage(req, res) {
+    res.render("insert");
+  },
+
+  // Save a new book
+  async store(req, res) {
     try {
       const { BookTitle, Author, Genre, Quantity } = req.body;
 
       if (
-        !BookTitle ||
-        !Author ||
-        !Genre ||
+        !BookTitle?.trim() ||
+        !Author?.trim() ||
+        !Genre?.trim() ||
         Quantity === undefined ||
-        Quantity === null ||
-        Quantity === ""
+        Quantity === "" ||
+        !Number.isInteger(Number(Quantity)) ||
+        Number(Quantity) < 0
       ) {
-        return res.status(400).json({
-          message: "All book fields are required",
-        });
+        return res.status(400).send("Please enter valid book details.");
       }
 
-      const book = await Book.create({
-        BookTitle,
-        Author,
-        Genre,
-        Quantity,
+      await Book.create({
+        BookTitle: BookTitle.trim(),
+        Author: Author.trim(),
+        Genre: Genre.trim(),
+        Quantity: Number(Quantity)
       });
 
-      res.status(201).json({
-        message: "Book added successfully",
-        book,
-      });
+      res.redirect("/books");
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).send("Error saving book.");
     }
   },
 
-  // PUT: Update a book
-  update: async (req, res) => {
+  // Show Edit Book page
+  async editPage(req, res) {
     try {
-      const { id } = req.params;
+      const book = await Book.findByPk(req.params.id);
 
-      const [updated] = await Book.update(req.body, {
-        where: { id },
-      });
-
-      if (updated === 0) {
-        return res.status(404).json({
-          message: "Book not found or no changes made",
-        });
+      if (!book) {
+        return res.status(404).send("Book not found.");
       }
 
-      const book = await Book.findByPk(id);
-
-      res.json({
-        message: "Book updated successfully",
-        book,
-      });
+      res.render("edit", { book });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).send("Error loading book.");
     }
   },
 
-  // DELETE: Delete a book
-  destroy: async (req, res) => {
+  // Update book from browser form
+  async updatePage(req, res) {
     try {
-      const { id } = req.params;
+      const { BookTitle, Author, Genre, Quantity } = req.body;
 
-      const deleted = await Book.destroy({
-        where: { id },
-      });
-
-      if (deleted === 0) {
-        return res.status(404).json({
-          message: "Book not found",
-        });
+      if (
+        !BookTitle?.trim() ||
+        !Author?.trim() ||
+        !Genre?.trim() ||
+        Quantity === undefined ||
+        Quantity === "" ||
+        !Number.isInteger(Number(Quantity)) ||
+        Number(Quantity) < 0
+      ) {
+        return res.status(400).send("Please enter valid book details.");
       }
 
-      res.json({
-        message: "Book deleted successfully",
+      const book = await Book.findByPk(req.params.id);
+
+      if (!book) {
+        return res.status(404).send("Book not found.");
+      }
+
+      await book.update({
+        BookTitle: BookTitle.trim(),
+        Author: Author.trim(),
+        Genre: Genre.trim(),
+        Quantity: Number(Quantity)
       });
+
+      res.redirect("/books");
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).send("Error updating book.");
     }
   },
+
+  // Delete book from browser
+  async deletePage(req, res) {
+    try {
+      const book = await Book.findByPk(req.params.id);
+
+      if (!book) {
+        return res.status(404).send("Book not found.");
+      }
+
+      await book.destroy();
+      res.redirect("/books");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error deleting book.");
+    }
+  },
+
+  /// Existing JSON API endpoint
+async index(req, res) {
+  try {
+    const books = await Book.findAll();
+    res.json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving books." });
+  }
+},
+
+// Activity 2: Update book through API
+async update(req, res) {
+  try {
+    const book = await Book.findByPk(req.params.id);
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found." });
+    }
+
+    const { BookTitle, Author, Genre, Quantity } = req.body;
+
+    await book.update({
+      BookTitle,
+      Author,
+      Genre,
+      Quantity: Number(Quantity)
+    });
+
+    res.json({
+      message: "Book updated successfully.",
+      book
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating book." });
+  }
+},
+
+// Activity 2: Delete book through API
+async destroy(req, res) {
+  try {
+    const book = await Book.findByPk(req.params.id);
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found." });
+    }
+
+    await book.destroy();
+
+    res.json({ message: "Book deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting book." });
+  }
+}
 };
 
 export { bookcontroller };

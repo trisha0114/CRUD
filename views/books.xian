@@ -1,0 +1,118 @@
+{{> head }}
+
+<body class="bg-white">
+  <div class="container mx-auto px-4 py-6">
+
+    <h1 class="text-2xl font-bold mb-6">
+      Book Inventory System
+    </h1>
+
+    <!-- ADD BOOK FORM ON MAIN PAGE -->
+    <h2 class="text-lg font-bold mb-3">Add New Book</h2>
+
+    <form method="POST" action="/books"
+          class="flex flex-wrap gap-3 mb-8">
+
+      <input
+        type="text"
+        name="BookTitle"
+        placeholder="Book Title"
+        required
+        class="border border-gray-400 p-2 rounded"
+      >
+
+      <input
+        type="text"
+        name="Author"
+        placeholder="Author"
+        required
+        class="border border-gray-400 p-2 rounded"
+      >
+
+      <input
+        type="text"
+        name="Genre"
+        placeholder="Genre"
+        required
+        class="border border-gray-400 p-2 rounded"
+      >
+
+      <input
+        type="number"
+        name="Quantity"
+        placeholder="Quantity"
+        min="0"
+        required
+        class="border border-gray-400 p-2 rounded w-28"
+      >
+
+      <button
+        type="submit"
+        class="border border-gray-500 px-4 py-2 rounded"
+      >
+        Add Book
+      </button>
+    </form>
+
+    <!-- BOOKS TABLE -->
+    <h2 class="text-lg font-bold mb-3">Books List</h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse border border-gray-400">
+        <thead>
+          <tr>
+            <th class="border border-gray-400 p-2">ID</th>
+            <th class="border border-gray-400 p-2">Book Title</th>
+            <th class="border border-gray-400 p-2">Author</th>
+            <th class="border border-gray-400 p-2">Genre</th>
+            <th class="border border-gray-400 p-2">Quantity</th>
+            <th class="border border-gray-400 p-2">Update</th>
+            <th class="border border-gray-400 p-2">Delete</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each books}}
+          <tr>
+            <td class="border border-gray-400 p-2">{{id}}</td>
+            <td class="border border-gray-400 p-2">{{BookTitle}}</td>
+            <td class="border border-gray-400 p-2">{{Author}}</td>
+            <td class="border border-gray-400 p-2">{{Genre}}</td>
+            <td class="border border-gray-400 p-2">{{Quantity}}</td>
+
+            <td class="border border-gray-400 p-2 text-center">
+              <a
+                href="/books/{{id}}/edit"
+                target="_blank"
+                rel="noopener"
+              >
+                Update
+              </a>
+            </td>
+
+            <td class="border border-gray-400 p-2 text-center">
+              <form
+                method="POST"
+                action="/books/{{id}}/delete"
+                onsubmit="return confirm('Are you sure you want to delete this book?');"
+              >
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {{else}}
+          <tr>
+            <td colspan="7" class="border border-gray-400 p-3 text-center">
+              No books found.
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  {{> footer }}
+</body>
+</html>

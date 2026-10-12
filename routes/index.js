@@ -114,11 +114,18 @@ router.post("/students/:id", studentcontroller.update);
 router.post("/students/:id/delete", studentcontroller.deleteStudent);
 
 
- // BOOK ROUTES
-router.get("/books", bookcontroller.index);
+ // Activity 2: Book API routes
+router.get("/books/data", bookcontroller.index);
 router.post("/books", bookcontroller.store);
 router.put("/books/:id", bookcontroller.update);
 router.delete("/books/:id", bookcontroller.destroy);
+
+// Activity 3: Browser routes
+router.get("/books", bookcontroller.page);
+router.get("/books/insert", bookcontroller.insertPage);
+router.get("/books/:id/edit", bookcontroller.editPage);
+router.post("/books/:id/update", bookcontroller.updatePage);
+router.post("/books/:id/delete", bookcontroller.deletePage);
 
 
 export default router;

@@ -1,8 +1,26 @@
 {{> head }}
-<body class="bg-gray-50">
+<body class="bg-gray-50 min-h-screen">
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-center mt-10">Welcome to XianFire 🔥</h1>
-    <p class="text-center mt-4">Home Page</p>
-    
+    <div class="bg-white rounded-xl shadow-md p-8 text-center mt-10">
+      <h1 class="text-3xl font-bold text-gray-800">
+        📚 Book Inventory System
+      </h1>
+
+      <p class="text-gray-600 mt-4">
+        Manage your books easily and efficiently.
+      </p>
+
+      <div class="mt-8 flex justify-center gap-4 flex-wrap">
+        <a href="/books"
+           class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg">
+          View Books
+        </a>
+
+        <a href="/books/insert"
+           class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg">
+          + Add New Book
+        </a>
+      </div>
+    </div>
   </div>
 {{> footer }}

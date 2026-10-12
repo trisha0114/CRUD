@@ -1,33 +1,97 @@
-
 {{> head }}
-<body class="bg-gray-50">
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Student Management</h1>
+<body class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
 
-    <form method="POST" action="/students" class="mb-8 space-y-3">
-      <input name="FirstName" placeholder="First Name" required class="border p-2">
-      <input name="LastName" placeholder="Last Name" required class="border p-2">
-      <input name="MiddleName" placeholder="Middle Name" class="border p-2">
-      <input name="Program" placeholder="Program" required class="border p-2">
-      <input name="YearLevel" placeholder="Year Level" required class="border p-2">
-      <input name="Section" placeholder="Section" required class="border p-2">
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2">Add Student</button>
-    </form>
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">
+        Add New Book
+      </h1>
 
-    <h2 class="text-xl font-bold mb-4">Students List</h2>
+      <a href="/books"
+         class="text-blue-600 hover:underline">
+        ← Back to Books
+      </a>
+    </div>
 
-    {{#each students}}
-      <div class="border p-4 mb-3 bg-white">
-        <p>{{FirstName}} {{LastName}}</p>
-        <p>{{Program}} - {{YearLevel}} - {{Section}}</p>
-        <a href="/students/{{id}}" class="text-blue-600">Edit</a>
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <form method="POST" action="/books" class="space-y-5">
 
-        <form method="POST" action="/students/{{id}}/delete">
-          <button type="submit" class="text-red-600">Delete</button>
-        </form>
-      </div>
-    {{/each}}
+        <div>
+          <label class="block font-semibold mb-1" for="BookTitle">
+            Book Title
+          </label>
+          <input
+            type="text"
+            id="BookTitle"
+            name="BookTitle"
+            placeholder="Enter book title"
+            required
+            class="w-full border rounded-lg p-3"
+          >
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1" for="Author">
+            Author
+          </label>
+          <input
+            type="text"
+            id="Author"
+            name="Author"
+            placeholder="Enter author name"
+            required
+            class="w-full border rounded-lg p-3"
+          >
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1" for="Genre">
+            Genre
+          </label>
+          <input
+            type="text"
+            id="Genre"
+            name="Genre"
+            placeholder="Enter book genre"
+            required
+            class="w-full border rounded-lg p-3"
+          >
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1" for="Quantity">
+            Quantity
+          </label>
+          <input
+            type="number"
+            id="Quantity"
+            name="Quantity"
+            min="0"
+            placeholder="Enter quantity"
+            required
+            class="w-full border rounded-lg p-3"
+          >
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-3 rounded-lg"
+          >
+            Save Book
+          </button>
+
+          <a
+            href="/books"
+            class="bg-gray-200 hover:bg-gray-300 px-5 py-3 rounded-lg"
+          >
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
   </div>
-  {{> footer }}
+{{> footer }}
 </body>
 </html>
